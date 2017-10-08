@@ -26,7 +26,7 @@ public class TestSets {
 	/* Testing HashMap */
 	public void testHashMap() {
 		state0.setTransition(Outputs.A, state1);
-		assertTrue(state0.goesTo(Outputs.A) == 1);
+		assertTrue(state0.goesTo(Outputs.A).getNodeNumber() == 1);
 	}
 
 }
