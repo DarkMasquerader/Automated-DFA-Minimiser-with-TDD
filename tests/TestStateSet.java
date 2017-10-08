@@ -50,6 +50,7 @@ public class TestStateSet {
 			
 			
 		}
+		
 	}
 	
 	@Test
@@ -61,6 +62,7 @@ public class TestStateSet {
 			
 		state0.setTransition(Outputs.A, state1);
 		state1.setTransition(Outputs.A, state2);
+		state1.setTransition(Outputs.B, state3);
 		state2.setTransition(Outputs.B, state3);
 		mapToDead(maxTransitions);
 		
