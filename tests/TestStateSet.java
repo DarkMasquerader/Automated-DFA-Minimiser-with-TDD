@@ -63,7 +63,6 @@ public class TestStateSet {
 		state0.setTransition(Outputs.A, state1);
 		state1.setTransition(Outputs.A, state2);
 		state1.setTransition(Outputs.B, state3);
-		state2.setTransition(Outputs.B, state3);
 		mapToDead(maxTransitions);
 		
 		/* Add Accepting States */
@@ -80,6 +79,37 @@ public class TestStateSet {
 
 		assertTrue(accepting.isToSplit() == true);
 		assertTrue(others.isToSplit() == true);
+		
+	}
+	
+	@Test
+	public void collisionTest2() {
+		int maxTransitions = 2;
+		
+		stateCollection.remove(state0);
+		
+		StateSet accepting = new StateSet();
+		StateSet others = new StateSet();
+			
+		state1.setTransition(Outputs.A, state2); 
+
+		mapToDead(maxTransitions);
+		
+		
+		
+		/* Add Accepting States */
+		accepting.addState(state1);
+		accepting.addState(state3);
+		
+		/* Add Non-Accepting States */
+		others.addState(state2);
+		others.addState(dead);
+		
+		accepting.checkCollisions(maxTransitions);
+		others.checkCollisions(maxTransitions);
+
+		assertTrue(accepting.isToSplit() == false);
+		assertTrue(others.isToSplit() == false);
 		
 	}
 
