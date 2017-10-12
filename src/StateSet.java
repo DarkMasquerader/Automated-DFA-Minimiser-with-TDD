@@ -24,6 +24,12 @@ public class StateSet {
 		state.setOwner(this);	
 	}
 	
+	/* Used during the splitting process */
+	void addFutureState(State state) {
+		listOfStates.add(state);
+		state.setFutureOwner(this);
+	}
+	
 	List<State> getListOfStates() {
 		return listOfStates;
 	}
@@ -78,19 +84,18 @@ public class StateSet {
 			}
 
 			
-			/* För varje hittade state, så kommer hittas alla andra transitioner */
+			/* Splitting state via found staes in row. Same states go together */
 			int index = 0;
 			for(StateSet set : setOfResults) {
 				StateSet tempStateSet = temp.get(index);
 				
-				//For every transition that landed in state s(set)
 				
 				for(State node : listOfStates ) { //For each node in set
 					
 					State destination = node.goesTo(transition);
 					if(destination.getBelongingSet().equals(set)) {
-						tempStateSet.addState(node);
-						/* update belongs to too early*/
+						tempStateSet.addFutureState(node);
+						
 					}
 				}
 				
@@ -98,7 +103,8 @@ public class StateSet {
 			}
 			
 			
-			return true;
+			return true; //return new states instead
+			
 		} else { //Om det inte finns någon kollision i en rad
 			return false;
 		}

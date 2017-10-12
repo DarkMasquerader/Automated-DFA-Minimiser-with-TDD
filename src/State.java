@@ -5,6 +5,7 @@ public class State {
 	private int nodeNumber; //Dead State Special Value: 666 [Needs a method for it to point to itself]
 	private HashMap<Outputs, State> transition = new HashMap<>();
 	private StateSet belongsTo;
+	private StateSet newSet = null; //Used during Set Splitting (Once node has been moved)
 	
 	State(int nodeNumber) {
 		setNodeNumber(nodeNumber);
@@ -41,5 +42,9 @@ public class State {
 
 	void setOwner(StateSet stateSet) {
 		belongsTo = stateSet;
+	}
+	
+	void setFutureOwner(StateSet stateset) { 
+		newSet = stateset;
 	}
 }
