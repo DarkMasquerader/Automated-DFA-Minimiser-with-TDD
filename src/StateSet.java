@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 public class StateSet {
@@ -79,7 +78,6 @@ public class StateSet {
 
 	}
 	
-	
 	private List<StateSet> checkRowCollision(Outputs transition) {
 		
 		HashSet<StateSet> setOfResults = new HashSet<>();
@@ -87,7 +85,8 @@ public class StateSet {
 		for(State node : listOfStates)  
 			setOfResults.add(node.goesTo(transition).getBelongingSet()); 
 		
-		if(setOfResults.size() > 1) { //Om det finns någon kollision i en rad
+		/* If there's a collision on a row */
+		if(setOfResults.size() > 1) { 
 			
 			/* Creates the precise amount of new sets needed*/
 			List<StateSet> temp = new ArrayList<>();
@@ -100,33 +99,29 @@ public class StateSet {
 			/* Splitting state via found states in row. Same states go together */
 			int index = 0;
 			for(StateSet set : setOfResults) {
-				StateSet tempStateSet = temp.get(index);
 				
+				StateSet tempStateSet = temp.get(index);
 				
 				for(State node : listOfStates ) { //For each node in set
 					
 					State destination = node.goesTo(transition);
-					if(destination.getBelongingSet().equals(set)) {
+					
+					if(destination.getBelongingSet().equals(set)) 
 						tempStateSet.addFutureState(node);
 						
-					}
 				}
 				
 				index++;
 			}
 			
+			return temp; 
 			
-			return temp; //return new states instead
-			
-		} else { //Om det inte finns någon kollision i en rad
+		} else { //If there isn't a collision in the set
 			return null;
 		}
 		
-		
 	}
 	
-	
-	@SuppressWarnings("unchecked")
 	List<List<StateSet>> splitSet(int max){ 
 		
 		int counter = 0;
@@ -138,8 +133,8 @@ public class StateSet {
 			if(counter >= max) 
 				break;
 			
-			//Om det här metoden dela upp en uppsättning så måste vi returna
-			Object object = checkRowCollision(transitionValue);
+			/* If a set is divided, we will return new sets */
+			List<StateSet> object = checkRowCollision(transitionValue);
 			if(object != null) {
 				listOfLists.add((List<StateSet>)object);
 				break;
