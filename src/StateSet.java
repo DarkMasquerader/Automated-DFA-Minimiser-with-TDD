@@ -21,8 +21,7 @@ public class StateSet {
 	
 	void addState(State state) {
 		listOfStates.add(state);
-		state.setOwner(this);
-		
+		state.setOwner(this);	
 	}
 	
 	List<State> getListOfStates() {
@@ -59,5 +58,70 @@ public class StateSet {
 			
 		}
 
+	}
+	
+	
+	private boolean checkRowCollision(Outputs transition) {
+		
+		HashSet<StateSet> setOfResults = new HashSet<>();
+		
+		for(State node : listOfStates)  
+			setOfResults.add(node.goesTo(transition).getBelongingSet()); 
+		
+		if(setOfResults.size() > 1) { //Om det finns någon kollision i en rad
+			
+			/* Skaffas precis behövde antal StateSets */
+			List<StateSet> temp = new ArrayList<>();
+			
+			for(int x = 0; x < setOfResults.size(); x++) {
+				temp.add(new StateSet());
+			}
+
+			
+			/* För varje hittade state, så kommer hittas alla andra transitioner */
+			int index = 0;
+			for(StateSet set : setOfResults) {
+				StateSet tempStateSet = temp.get(index);
+				
+				//For every transition that landed in state s(set)
+				
+				for(State node : listOfStates ) { //For each node in set
+					
+					State destination = node.goesTo(transition);
+					if(destination.getBelongingSet().equals(set)) {
+						tempStateSet.addState(node);
+						/* update belongs to too early*/
+					}
+				}
+				
+				index++;
+			}
+			
+			
+			return true;
+		} else { //Om det inte finns någon kollision i en rad
+			return false;
+		}
+		
+		
+	}
+	
+	
+	List<StateSet> splitSet(int max){ 
+		
+		int counter = 0;
+		
+		for(Outputs transitionValue : Outputs.values()) { 
+			
+			if(counter >= max) 
+				break;
+			
+			//Om det här metoden dela upp en uppsättning så måste vi returna
+			checkRowCollision(transitionValue);
+			
+			counter++;
+		}
+		
+		return null;
 	}
 }

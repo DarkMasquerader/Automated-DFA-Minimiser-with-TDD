@@ -12,6 +12,7 @@ public class TestStateSet {
 	State state0, state1, state2, state3, dead;
 	List<State> stateCollection = new ArrayList<>();
 	
+
 	@Before
 	public void setUp() {
 		
@@ -28,7 +29,7 @@ public class TestStateSet {
 		stateCollection.add(dead);
 	}
 
-	/* Could Transfer to Project */
+	/* Kunna flytta till projektet */
 	public void mapToDead(int numberOutputs) {
 		
 		for(State s : stateCollection) {
@@ -65,11 +66,11 @@ public class TestStateSet {
 		state1.setTransition(Outputs.B, state3);
 		mapToDead(maxTransitions);
 		
-		/* Add Accepting States */
+		/* Adderar Accepting States */
 		accepting.addState(state1);
 		accepting.addState(state3);
 		
-		/* Add Non-Accepting States */
+		/* Adderar Non-Accepting States */
 		others.addState(state0);
 		others.addState(state2);
 		others.addState(dead);

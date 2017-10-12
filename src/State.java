@@ -43,6 +43,3 @@ public class State {
 		belongsTo = stateSet;
 	}
 }
-
-
-/* Changed goesTo return type & setOwnerMethod*/
