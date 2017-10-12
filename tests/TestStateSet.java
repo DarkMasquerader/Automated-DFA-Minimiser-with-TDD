@@ -113,5 +113,57 @@ public class TestStateSet {
 		assertTrue(others.isToSplit() == false);
 		
 	}
+	
+	@Test
+	public void splitTest() {
+		int maxTransitions = 2;
+		
+		StateSet accepting = new StateSet();
+		StateSet others = new StateSet();
+			
+		state0.setTransition(Outputs.A, state1);
+		state1.setTransition(Outputs.A, state2);
+		state1.setTransition(Outputs.B, state3);
+		mapToDead(maxTransitions);
+		
+		/* Adderar Accepting States */
+		accepting.addState(state1);
+		accepting.addState(state3);
+		
+		/* Adderar Non-Accepting States */
+		others.addState(state0);
+		others.addState(state2);
+		others.addState(dead);
+		
+		accepting.checkCollisions(maxTransitions);
+		others.checkCollisions(maxTransitions);
+
+		assertTrue(accepting.isToSplit() == true);
+		assertTrue(others.isToSplit() == true);
+		
+		
+		List<List<List<StateSet>>> listOfLists = new ArrayList<>();
+		listOfLists.add(accepting.splitSet(maxTransitions));
+		listOfLists.add(others.splitSet(maxTransitions));
+		
+		assertTrue(listOfLists.size() == 2);
+		
+		int counter = 0;
+		for(List<List<StateSet>> lvl1 : listOfLists)
+			for(List<StateSet> lvl2 : lvl1) 
+				for(StateSet lvl3 : lvl2) {
+					counter++;
+					lvl3.updateStates();
+					lvl3.printInfo();
+			}
+			
+		assertTrue(counter == 4);
+		
+		
+		
+		
+		
+		
+	}
 
 }

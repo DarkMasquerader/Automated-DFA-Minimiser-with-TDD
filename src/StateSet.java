@@ -1,11 +1,24 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 public class StateSet {
 	
 	private boolean toSplit = false;
 	private List<State> listOfStates = new ArrayList<>();	
+	
+	public void printInfo() {
+	
+		for(State node : listOfStates) 
+			System.out.println(node.toString());
+		
+	}
+	
+	public void updateStates() {
+		for(State node : listOfStates)
+			node.updateSet();
+	}
 	
 	void markToSplit() {
 		toSplit = true;
@@ -67,7 +80,7 @@ public class StateSet {
 	}
 	
 	
-	private boolean checkRowCollision(Outputs transition) {
+	private List<StateSet> checkRowCollision(Outputs transition) {
 		
 		HashSet<StateSet> setOfResults = new HashSet<>();
 		
@@ -76,7 +89,7 @@ public class StateSet {
 		
 		if(setOfResults.size() > 1) { //Om det finns någon kollision i en rad
 			
-			/* Skaffas precis behövde antal StateSets */
+			/* Creates the precise amount of new sets needed*/
 			List<StateSet> temp = new ArrayList<>();
 			
 			for(int x = 0; x < setOfResults.size(); x++) {
@@ -84,7 +97,7 @@ public class StateSet {
 			}
 
 			
-			/* Splitting state via found staes in row. Same states go together */
+			/* Splitting state via found states in row. Same states go together */
 			int index = 0;
 			for(StateSet set : setOfResults) {
 				StateSet tempStateSet = temp.get(index);
@@ -103,19 +116,22 @@ public class StateSet {
 			}
 			
 			
-			return true; //return new states instead
+			return temp; //return new states instead
 			
 		} else { //Om det inte finns någon kollision i en rad
-			return false;
+			return null;
 		}
 		
 		
 	}
 	
 	
-	List<StateSet> splitSet(int max){ 
+	@SuppressWarnings("unchecked")
+	List<List<StateSet>> splitSet(int max){ 
 		
 		int counter = 0;
+		
+		List<List<StateSet>> listOfLists = new ArrayList<>();
 		
 		for(Outputs transitionValue : Outputs.values()) { 
 			
@@ -123,11 +139,15 @@ public class StateSet {
 				break;
 			
 			//Om det här metoden dela upp en uppsättning så måste vi returna
-			checkRowCollision(transitionValue);
-			
+			Object object = checkRowCollision(transitionValue);
+			if(object != null) {
+				listOfLists.add((List<StateSet>)object);
+				break;
+			}
+				
 			counter++;
 		}
 		
-		return null;
+		return listOfLists;
 	}
 }

@@ -47,4 +47,14 @@ public class State {
 	void setFutureOwner(StateSet stateset) { 
 		newSet = stateset;
 	}
+	
+	//Is run after split has been done for each state
+	public void updateSet() {
+		belongsTo = newSet;
+		newSet = null;
+	}
+	
+	public String toString() {
+		return "Node Number: " + getNodeNumber() + "\nBelongsTo: " + getBelongingSet() + "\n";
+	}
 }
