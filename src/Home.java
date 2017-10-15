@@ -18,6 +18,9 @@ public class Home {
 	/* Holds Number of Nodes - For minor error handling */
 	static int maxNodes;
 	
+	/* Holds number of Transitions per Node */
+	static final int maxTransistions = 3;
+	
 	
 	
 	
@@ -31,11 +34,48 @@ public class Home {
 	handleInput(args);
 	getTransitions();
 		
-	accepting.printInfo();
-	other.printInfo();
+	/* Checking for Collisions */
+	accepting.checkCollisions(3);
+	other.checkCollisions(maxTransistions);
+	
+	/* Splitting Sets */
+	List<List<List<StateSet>>> postSplitCollection = new ArrayList<>();
+	
+	if(accepting.isToSplit())	
+		postSplitCollection.add(accepting.splitSet(maxTransistions));
+	else 	
+		postSplitCollection.add(noSplitScenario(accepting));
+	
+	
+	if(other.isToSplit())
+		postSplitCollection.add(other.splitSet(maxTransistions));
+	else
+		postSplitCollection.add(noSplitScenario(other));
+	
+	
+	
+	//accepting.printInfo();
+	//other.printInfo();
 	
 	}
 	
+	
+	/**
+	 * To be used when splitSet() is not used. It returns a List<List<StateSet>> which is expected
+	 * after the splitting process.
+	 * @param s
+	 * @return
+	 */
+	private static List<List<StateSet>> noSplitScenario(StateSet s) {
+		
+		List<List<StateSet>> temp = new ArrayList<>();
+		List<StateSet> temp2 = new ArrayList<>();
+		
+		temp2.add(s);
+		temp.add(temp2);
+		return temp;
+		
+	}
 	
 	private static void getTransitions() {
 
@@ -184,14 +224,14 @@ public class Home {
 	private static List<StateSet> unpack(List<List<List<StateSet>>> listCeption) {
 		
 		
-		List<List<List<StateSet>>> listOfLists = new ArrayList<>();
+		//List<List<List<StateSet>>> listOfLists = new ArrayList<>();
 		//listOfLists.add(accepting.splitSet(maxTransitions));
 		//listOfLists.add(others.splitSet(maxTransitions));
 		
-		assertTrue(listOfLists.size() == 2);
+		//assertTrue(listOfLists.size() == 2);
 		
 		int counter = 0;
-		for(List<List<StateSet>> lvl1 : listOfLists)
+		for(List<List<StateSet>> lvl1 : listCeption)
 			for(List<StateSet> lvl2 : lvl1) 
 				for(StateSet lvl3 : lvl2) {
 					counter++;
