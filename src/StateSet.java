@@ -17,6 +17,8 @@ public class StateSet {
 	public void updateStates() {
 		for(State node : listOfStates)
 			node.updateSet();
+		
+		toSplit = false;
 	}
 	
 	void markToSplit() {
