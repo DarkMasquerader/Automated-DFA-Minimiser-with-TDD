@@ -57,11 +57,21 @@ public class Home {
 		/* Transition input for each state*/
 		for(State state : listOfStates) {
 			
+			
+			/* Dead State Maps to Itself */
+			if(state.getNodeNumber() == 666) {
+				state.setTransition(Outputs.A, state);
+				state.setTransition(Outputs.B, state);
+				state.setTransition(Outputs.C, state);
+				continue;
+			}
+			
 			String tempHolder;
 			int[] transitionNodeNumber = new int[3];
 			
 			/* Getting User Input */
 			System.out.println("a b c Transition for Node #" + state.getNodeNumber());
+			System.out.println("For no transition, enter \"666\". ");
 			tempHolder = scanner.nextLine();
 			
 			/* Checking User Input */
