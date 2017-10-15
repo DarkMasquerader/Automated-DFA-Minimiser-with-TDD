@@ -51,6 +51,10 @@ public class State {
 	
 	//Is run after split has been done for each state
 	public void updateSet() {
+		
+		if(newSet == null)
+			return;
+		
 		belongsTo = newSet;
 		newSet = null;
 	}
