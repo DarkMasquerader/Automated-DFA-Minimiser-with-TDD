@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Map;
 
 public class State {
 
@@ -54,7 +55,20 @@ public class State {
 		newSet = null;
 	}
 	
+	//TO-DO Print Transitions
 	public String toString() {
-		return "Node Number: " + getNodeNumber() + "\nBelongsTo: " + getBelongingSet() + "\n";
+		
+		StringBuilder sb = new StringBuilder(300);
+		
+		for(Map.Entry<Outputs, State> entry : transition.entrySet()) {
+			Outputs key = entry.getKey();
+			State value = entry.getValue();
+			
+			sb.append(key.getValue() + " --> " + value.getNodeNumber() + "\n");
+			
+		}
+		
+		return "Node Number: " + getNodeNumber() + "\nBelongsTo: " + getBelongingSet() + "\n" +
+					"Transistions:\n " + sb.toString();
 	}
 }

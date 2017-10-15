@@ -31,6 +31,7 @@ public class Home {
 	handleInput(args);
 	getTransitions();
 		
+	accepting.printInfo();
 	
 	}
 	
@@ -41,7 +42,6 @@ public class Home {
 		
 		/* Adding All States to a single list for efficiency */
 		List<State> listOfStates= new ArrayList<>();
-		maxNodes = listOfStates.size();
 		
 		List<State> temp1 = accepting.getListOfStates();
 		List<State> temp2 = other.getListOfStates();
@@ -52,6 +52,7 @@ public class Home {
 		for(State state : temp2)
 			 listOfStates.add(state);
 		
+		maxNodes = listOfStates.size();
 		
 		/* Transition input for each state*/
 		for(State state : listOfStates) {
@@ -71,13 +72,15 @@ public class Home {
 			}
 			
 			/* Adding Information to States */
-			state.setTransition(Outputs.A, transitionNodeNumber[0]);
-			state.setTransition(Outputs.B, transitionNodeNumber[1]);
-			state.setTransition(Outputs.C, transitionNodeNumber[2]);
+			state.setTransition(Outputs.A, getNode(transitionNodeNumber[0], listOfStates));
+			state.setTransition(Outputs.B, getNode(transitionNodeNumber[1], listOfStates));
+			state.setTransition(Outputs.C, getNode(transitionNodeNumber[2], listOfStates));
 			
 			
-			scanner.close();
+			
 		}
+		
+		scanner.close();
 		
 	}
 
@@ -116,14 +119,18 @@ public class Home {
 		}
 		
 		
-		for(int x : intAnswers)
-			if(x > maxNodes -1 || x < 0) {
+		for(int x : intAnswers) {
+			
+			if(x == 666)
+				return true;
+			
+			if(x > maxNodes -2 || x < 0) { //Minus 2 for 0 start and Dead State
 				
 				System.out.println("Invalid Node Number Entered");
 				return false;
 			}
-		
-		return true;
+		}
+			return true;
 		
 		
 		
