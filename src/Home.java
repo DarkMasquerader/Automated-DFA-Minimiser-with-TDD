@@ -32,6 +32,7 @@ public class Home {
 	getTransitions();
 		
 	accepting.printInfo();
+	other.printInfo();
 	
 	}
 	

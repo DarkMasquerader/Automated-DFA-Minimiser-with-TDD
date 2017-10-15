@@ -69,6 +69,6 @@ public class State {
 		}
 		
 		return "Node Number: " + getNodeNumber() + "\nBelongsTo: " + getBelongingSet() + "\n" +
-					"Transistions:\n " + sb.toString();
+					"Transistions:\n" + sb.toString();
 	}
 }
