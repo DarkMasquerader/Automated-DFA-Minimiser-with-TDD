@@ -4,7 +4,9 @@ In my Compilers and Code Generation module, we do some work with minimizing DFA'
 subset construct. As the course is centered around the motto 'can we write a program to do it', I 
 thought I'd give it a go.
 
-Extended to a Week Coding Challenge
+Extended to a Week Coding Challenge.
+
+Run-Time Analysis pending...
 
 # How to use
 As args input, input the following (with spaces to seperate):
